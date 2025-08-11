@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Júlia Thereza - Música</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Slick Carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <style>
+        :root {
+            --primary: #9c27b0; /* Alterado para roxo */
+            --bg: #0f0f1a;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --text: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+        
+        /* Efeito de scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                    rgba(18, 16, 16, 0) 50%, 
+                    rgba(0, 0, 0, 0.25) 50%
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 0, 0, 0.06),
+                    rgba(0, 255, 0, 0.02),
+                    rgba(0, 0, 255, 0.06)
+                );
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.3;
+        }
+        
+        /* Elementos decorativos de música */
+        .music-decorations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .music-icon {
+            position: absolute;
+            color: rgba(156, 39, 176, 0.1);
+            font-size: 10rem;
+            opacity: 0.7;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        /* Posicionamento dos ícones */
+        .music-icon:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .music-icon:nth-child(2) { top: 25%; right: 8%; animation-delay: 2s; animation-duration: 18s; }
+        .music-icon:nth-child(3) { bottom: 15%; left: 10%; animation-delay: 4s; animation-duration: 20s; }
+        .music-icon:nth-child(4) { bottom: 25%; right: 5%; animation-delay: 6s; animation-duration: 16s; }
+        .music-icon:nth-child(5) { top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); font-size: 15rem; opacity: 0.05; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        /* Claves musicais */
+        .clef {
+            position: absolute;
+            font-size: 8rem;
+            color: rgba(156, 39, 176, 0.15);
+            opacity: 0.6;
+            animation: spin 50s linear infinite;
+        }
+        
+        .clef.treble { top: 5%; right: 10%; animation: spin 40s linear infinite reverse; }
+        .clef.bass { bottom: 5%; left: 10%; animation: spin 60s linear infinite; }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Notas musicais */
+        .note {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.15);
+            animation: floatNote 15s linear infinite;
+        }
+        
+        .note-1 { top: 15%; left: 20%; animation-delay: 0s; }
+        .note-2 { top: 30%; right: 25%; animation-delay: 3s; animation-duration: 18s; }
+        .note-3 { bottom: 20%; left: 25%; animation-delay: 6s; animation-duration: 20s; }
+        
+        @keyframes floatNote {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Cabeçalho */
+        .music-header {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .music-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .music-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        /* Carrossel */
+        .carrossel-container {
+            margin: 2rem 0 4rem;
+            padding: 0 20px;
+        }
+
+        .carrossel {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(156, 39, 176, 0.3);
+        }
+
+        .carrossel img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slick-prev:before, 
+        .slick-next:before {
+            color: var(--primary) !important;
+            font-size: 30px;
+        }
+
+        .slick-dots li button:before {
+            color: var(--primary) !important;
+            opacity: 0.5;
+        }
+
+        .slick-dots li.slick-active button:before {
+            opacity: 1;
+            color: var(--primary) !important;
+        }
+        
+        /* Grid de cards */
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        /* Cards */
+        .music-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 15px rgba(156, 39, 176, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .music-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .music-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(156, 39, 176, 0.3);
+            border-color: var(--primary);
+        }
+        
+        .music-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .music-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .music-card h3::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+        
+        .music-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+        
+        /* Botão de voltar */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1rem;
+            margin: 2rem 0;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        
+        .back-button:hover {
+            background: var(--primary);
+            color: #000;
+        }
+        
+        .back-button i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .music-header h1 {
+                font-size: 2rem;
+            }
+            
+            .music-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .carrossel img {
+                height: 250px;
+            }
+        }
+        
+        /* Seção de Texto Sobre as Experiências */
+        .experiencia-texto {
+            margin: 4rem 0;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(156, 39, 176, 0.2);
+        }
+        
+        .experiencia-texto h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .texto-destaque {
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .texto-destaque p {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    
+    <!-- Elementos decorativos de música -->
+    <div class="music-decorations">
+        <!-- Instrumentos musicais -->
+        <i class="fas fa-guitar music-icon"></i>
+        <i class="fas fa-piano-keyboard music-icon"></i>
+        <i class="fas fa-music music-icon"></i>
+        <i class="fas fa-drum music-icon"></i>
+        <i class="fas fa-headphones music-icon"></i>
+        
+        <!-- Claves musicais -->
+        <div class="clef treble">𝄞</div>
+        <div class="clef bass">𝄢</div>
+        
+        <!-- Notas musicais flutuantes -->
+        <div class="note note-1">♪</div>
+        <div class="note note-2">♫</div>
+        <div class="note note-3">♩</div>
+    </div>
+    
+    <div class="container">
+        <header class="music-header">
+            <h1>Experiências Musicais</h1>
+            <p>Minha jornada na música e projetos relacionados</p>
+        </header>
+
+        <!-- Carrossel de Imagens -->
+        <div class="carrossel-container">
+            <div class="carrossel">
+                <!-- Substitua as imagens de exemplo pelas suas próprias -->
+                <div><img src="https://via.placeholder.com/800x400/9c27b0/ffffff?text=Show+Ao+Vivo" alt="Show ao Vivo"></div>
+                <div><img src="https://via.placeholder.com/800x400/7b1fa2/ffffff?text=Estúdio+de+Gravação" alt="Estúdio de Gravação"></div>
+                <div><img src="https://via.placeholder.com/800x400/6a1b9a/ffffff?text=Aula+de+Música" alt="Aula de Música"></div>
+                <div><img src="https://via.placeholder.com/800x400/4a148c/ffffff?text=Apresentação" alt="Apresentação"></div>
+            </div>
+        </div>
+
+        <!-- Seção de Texto Sobre as Experiências -->
+        <section class="experiencia-texto">
+            <div class="container">
+                <h2>Minha Jornada Musical</h2>
+                <div class="texto-destaque">
+                    <p>Minha paixão pela música começou cedo, quando tive meu primeiro contato com o piano aos 7 anos de idade. Desde então, venho trilhando um caminho de aprendizado e descobertas no universo musical.</p>
+                    
+                    <p>Através dos anos, tive a oportunidade de me apresentar em diversos palcos, desde pequenos eventos locais até festivais de música. Cada apresentação trouxe experiências únicas e aprendizados valiosos que moldaram minha trajetória.</p>
+                    
+                    <p>Além das apresentações, dedico parte do meu tempo ao ensino musical, compartilhando conhecimento com alunos de diferentes idades e níveis. Acredito que a música é uma linguagem universal que pode transformar vidas e conectar pessoas.</p>
+                    
+                    <p>Meu trabalho no estúdio de gravação tem sido uma jornada de aprendizado constante, onde posso explorar diferentes técnicas de produção e arranjo musical, sempre buscando aprimorar minha arte.</p>
+                </div>
+            </div>
+        </section>
+        
+        <main>
+            <div class="music-grid">
+                <div class="music-card">
+                    <h3>Formação Musical</h3>
+                    <p>Estudos em teoria musical, harmonia e composição. Experiência com diversos instrumentos e estilos musicais, desde o clássico ao contemporâneo.</p>
+                </div>
+                
+                <div class="music-card">
+                    <h3>Ensino de Música</h3>
+                    <p>Métodos inovadores para ensinar música de forma acessível e envolvente. Experiência com alunos de todas as idades e níveis de habilidade.</p>
+                </div>
+                
+                <div class="music-card">
+                    <h3>Projetos Musicais</h3>
+                    <p>Participação ativa em bandas, orquestras e projetos independentes. Composições autorais e arranjos musicais.</p>
+                </div>
+                
+                <div class="music-card">
+                    <h3>Produção Musical</h3>
+                    <p>Experiência em gravação, mixagem e produção de áudio em home studio. Domínio de ferramentas de produção musical digital.</p>
+                </div>
+                
+                <div class="music-card">
+                    <h3>Instrumentos</h3>
+                    <p>Domínio de diversos instrumentos musicais, incluindo teclado, violão, violino e instrumentos de percussão.</p>
+                </div>
+                
+                <div class="music-card">
+                    <h3>Performance</h3>
+                    <p>Apresentações ao vivo em diversos eventos e espaços culturais. Experiência em palco e performance musical.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="index.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Voltar para o início
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts do Slick Carousel -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.carrossel').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                fade: true,
+                cssEase: 'linear',
+                autoplay: true,
+                autoplaySpeed: 3000,
+                arrows: true,
+                prevArrow: '<button type="button" class="slick-prev">‹</button>',
+                nextArrow: '<button type="button" class="slick-next">›</button>'
+            });
+
+            // Atualiza o ano no footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Menu mobile
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
