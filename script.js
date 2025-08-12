@@ -154,42 +154,49 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form submission handling
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Get form data
             const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Here you would typically send the data to a server
-            console.log('Form submitted:', data);
-            
-            // Show success message
             const submitButton = this.querySelector('button[type="submit"]');
             const originalText = submitButton.textContent;
+            const successMessage = document.getElementById('form-success');
             
+            // Desabilita o botão e mostra "Enviando..."
             submitButton.disabled = true;
             submitButton.textContent = 'Enviando...';
             
-            // Simulate form submission
-            setTimeout(() => {
-                submitButton.textContent = 'Mensagem Enviada!';
-                submitButton.style.backgroundColor = 'rgba(39, 201, 63, 0.1)';
-                submitButton.style.borderColor = '#27c93f';
-                submitButton.style.color = '#27c93f';
+            try {
+                // Envia os dados do formulário via Fetch API
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
                 
-                // Reset form
-                this.reset();
-                
-                // Reset button after delay
-                setTimeout(() => {
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                    submitButton.style.backgroundColor = 'rgba(0, 255, 157, 0.1)';
-                    submitButton.style.borderColor = 'var(--neon-green)';
-                    submitButton.style.color = 'var(--neon-green)';
-                }, 3000);
-            }, 1500);
+                if (response.ok) {
+                    // Mostra mensagem de sucesso
+                    successMessage.style.display = 'block';
+                    // Reseta o formulário
+                    this.reset();
+                    
+                    // Esconde a mensagem após 5 segundos
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                } else {
+                    throw new Error('Falha ao enviar mensagem');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
+            } finally {
+                // Restaura o botão
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
         });
     }
 
