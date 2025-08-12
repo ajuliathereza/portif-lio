@@ -9,13 +9,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuHamburguer = document.querySelector('.hamburger');
     const menuLinks = document.querySelector('.nav-links');
     const itensMenu = document.querySelectorAll('.nav-links a');
-    
+
     if (menuHamburguer && menuLinks) {
+        // Adiciona classe ao body para evitar rolagem quando o menu está aberto
+        const body = document.body;
+        
         menuHamburguer.addEventListener('click', function(e) {
             e.stopPropagation();
             this.classList.toggle('active');
             menuLinks.classList.toggle('active');
-            document.body.style.overflow = this.classList.contains('active') ? 'hidden' : '';
+            
+            // Alterna a classe no body para controlar a rolagem
+            if (this.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+                body.style.height = '100vh';
+            } else {
+                body.style.overflow = '';
+                body.style.height = '';
+            }
         });
 
         // Fechar menu ao clicar fora
@@ -23,9 +34,22 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!menuLinks.contains(e.target) && !menuHamburguer.contains(e.target)) {
                 menuHamburguer.classList.remove('active');
                 menuLinks.classList.remove('active');
-                document.body.style.overflow = '';
+                body.style.overflow = '';
+                body.style.height = '';
             }
         });
+
+        // Fechar menu ao redimensionar a tela para desktop
+        function handleResize() {
+            if (window.innerWidth > 768) {
+                menuHamburguer.classList.remove('active');
+                menuLinks.classList.remove('active');
+                body.style.overflow = '';
+                body.style.height = '';
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
     }
 
     // Fechar menu ao clicar em um link
@@ -35,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 menuHamburguer.classList.remove('active');
                 menuLinks.classList.remove('active');
                 document.body.style.overflow = '';
+                document.body.style.height = '';
             }
         });
     });
