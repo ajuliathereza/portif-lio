@@ -80,8 +80,8 @@ O design do portfólio foi pensado para transmitir profissionalismo com um toque
 
 - **Nome:** Júlia Thereza
 - **Email:** juliafac@outlook.com
-- **LinkedIn:** [linkedin.com/in/seu-perfil](https://linkedin.com/in/juliadevops)
-- **GitHub:** [github.com/seu-usuario](https://github.com/juliathereza)
+- **LinkedIn:** [(https://linkedin.com/in/juliadevops)](https://linkedin.com/in/juliadevops)
+- **GitHub:** [(https://github.com/juliathereza)](https://github.com/juliathereza)
 
 ---
 
